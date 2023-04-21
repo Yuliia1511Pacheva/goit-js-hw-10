@@ -1,8 +1,9 @@
 import debounce from 'lodash.debounce';
 import Notiflix from 'notiflix';
 import './css/styles.css';
+import { fetchCountries } from './fetchCountries';
 
-const BASE_URL = 'https://restcountries.com/v3.1/name';
+
 const DEBOUNCE_DELAY = 300;
 const inputEl = document.querySelector('#search-box');
 const listEl = document.querySelector('.country-list');
@@ -13,7 +14,9 @@ inputEl.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY));
 function onSearch(evt) {
   const value = evt.target.value.trim();
  
-  if (value === '') {
+  if (!value) {
+    listEl.innerHTML = '';
+    infoEl.innerHTML = ''; 
     return;
 }
   fetchCountries(value)
@@ -43,25 +46,10 @@ function onSearch(evt) {
         listEl.innerHTML = '';
         infoEl.innerHTML = ''; 
     }
-  );
-  
-    if (!value) {
-      listEl.innerHTML = '';
-      infoEl.innerHTML = ''; 
-    }
+  )
 }
   
 
-function fetchCountries(name) {
-  const URL = `${BASE_URL}/${name}?fields=name,capital,population,flags,languages`;
-  return fetch(URL).then(resp => {
-
-     if (!resp.ok) {
-      throw new Error(resp.statusText);
-    }
-    return resp.json();
-  });
-}
 
 function createMarkup(arr) {
   return arr
