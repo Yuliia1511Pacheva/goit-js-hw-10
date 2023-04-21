@@ -12,7 +12,9 @@ inputEl.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY));
 
 function onSearch(evt) {
   const value = evt.target.value.trim();
-
+  if (value === '') {
+    return;
+}
   fetchCountries(value)
     .then(data => {
       if (data.length > 10) {
@@ -33,11 +35,16 @@ function onSearch(evt) {
       }
       
     })
-    .catch(err => console.log(err));
+    .catch(() => {
+      Notiflix.Notify.failure('Oops, there is no country with that name');
+        listEl.innerHTML = '';
+        infoEl.innerHTML = ''; 
+    }
+  );
   
     if (!value) {
       listEl.innerHTML = '';
-      infoEl.innerHTML = '';
+      infoEl.innerHTML = ''; 
     }
 }
   
@@ -45,9 +52,6 @@ function onSearch(evt) {
 function fetchCountries(name) {
   const URL = `${BASE_URL}/${name}?fields=name,capital,population,flags,languages`;
   return fetch(URL).then(resp => {
-     if ((resp.statusCode = 404)) {
-       Notiflix.Notify.failure('Oops, there is no country with that name');
-     }
      if (!resp.ok) {
       throw new Error(resp.statusText);
     }
