@@ -12,6 +12,7 @@ inputEl.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY));
 
 function onSearch(evt) {
   const value = evt.target.value.trim();
+ 
   if (value === '') {
     return;
 }
@@ -26,7 +27,8 @@ function onSearch(evt) {
       } if (data.length === 1) {
         infoEl.innerHTML = createCard(data);
 
-      } if (data.length > 1) {
+      }
+      if (data.length > 1) {
         infoEl.innerHTML = '';
 
       }
@@ -35,7 +37,8 @@ function onSearch(evt) {
       }
       
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err);
       Notiflix.Notify.failure('Oops, there is no country with that name');
         listEl.innerHTML = '';
         infoEl.innerHTML = ''; 
@@ -52,10 +55,10 @@ function onSearch(evt) {
 function fetchCountries(name) {
   const URL = `${BASE_URL}/${name}?fields=name,capital,population,flags,languages`;
   return fetch(URL).then(resp => {
+
      if (!resp.ok) {
       throw new Error(resp.statusText);
     }
-   console.dir(resp);
     return resp.json();
   });
 }
