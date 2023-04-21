@@ -1,7 +1,7 @@
 import debounce from 'lodash.debounce';
 import Notiflix from 'notiflix';
 import './css/styles.css';
-import { fetchCountries } from './fetchCountries';
+import { fetchCountries } from './fetchCountries'; 
 
 
 const DEBOUNCE_DELAY = 300;
@@ -24,29 +24,20 @@ function onSearch(evt) {
       if (data.length > 10) {
         Notiflix.Notify.info(
           'Too many matches found. Please enter a more specific name.'
-        )
+        );
         listEl.innerHTML = '';
-
-      } if (data.length === 1) {
+      }
+      if (data.length === 1) {
         infoEl.innerHTML = createCard(data);
-
       }
       if (data.length > 1) {
         infoEl.innerHTML = '';
-
       }
       if (data.length < 10) {
         listEl.innerHTML = createMarkup(data);
       }
-      
     })
-    .catch((err) => {
-      console.log(err);
-      Notiflix.Notify.failure('Oops, there is no country with that name');
-        listEl.innerHTML = '';
-        infoEl.innerHTML = ''; 
-    }
-  )
+    .catch(onFetchError);
 }
   
 
@@ -72,4 +63,10 @@ function createCard(arr) {
          <p class="info">Languages:<span class="text">${Object.values(languages)}</span></p>`
     )
     .join('');
+}
+
+function onFetchError() {
+  Notiflix.Notify.failure('Oops, there is no country with that name');
+  listEl.innerHTML = '';
+  infoEl.innerHTML = ''; 
 }
