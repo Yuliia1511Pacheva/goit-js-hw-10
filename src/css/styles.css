@@ -18,3 +18,26 @@ body {
   max-width: 320px;
   margin-bottom: 16px;
 }
+
+ ul{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+ }
+h1, h2, h3, h4, p{
+  padding: 0;
+  margin: 0;
+}
+ .country{
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+ }
+
+ .info{
+  font-weight: 800;
+ }
+
+ .text{
+  font-weight: 400;
+ }
