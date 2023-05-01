@@ -1,10 +1,10 @@
 import debounce from 'lodash.debounce';
 import Notiflix from 'notiflix';
-import './css/styles.css';
 import { fetchCountries } from './service-api'; 
-
+import './css/styles.css';
 
 const DEBOUNCE_DELAY = 300;
+
 const inputEl = document.querySelector('#search-box');
 const listEl = document.querySelector('.country-list');
 const infoEl = document.querySelector('.country-info');
@@ -70,3 +70,5 @@ function onFetchError() {
   listEl.innerHTML = '';
   infoEl.innerHTML = ''; 
 }
+
+
